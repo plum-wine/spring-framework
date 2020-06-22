@@ -1,4 +1,4 @@
-package com.github;
+package com.github.app;
 
 import com.github.service.Login;
 import org.springframework.context.ApplicationContext;
@@ -6,10 +6,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Hello world!
- *
+ * <p>
  * spring 只支持单例模式的循环依赖,不支持原型模式的循环依赖
  */
-public class App {
+public class ClassPathXmlApp {
 
 	public static void main(String[] args) {
 		String XMLPath = "classpath:spring-config.xml";
@@ -30,9 +30,13 @@ public class App {
 		// DefaultListableBeanFactory
 		// -> preInstantiateSingletons
 		// -> getBean
+
+		// AbstractBeanFactory
 		// -> doGetBean
 		// -> 第一次调用getSingleton (主要是解决循环依赖与懒加载)
 		// -> 第二次调用getSingleton (实例化)
+
+		// AbstractAutowiredCapableBeanFactory
 		// -> createBean
 		// -> doCreateBean
 

@@ -3,6 +3,15 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<bean id="loginService" class="com.github.service.impl.LoginImpl" init-method="init"/>
+	<bean id="foobarService" class="com.github.service.FoobarService"/>
+	<bean id="loginService" class="com.github.service.impl.LoginImpl" init-method="init">
+		<property name="foobarService" ref="foobarService"/>
+	</bean>
 	<bean id="customBeanFactoryPostProcessor" class="com.github.processor.CustomBeanFactoryPostProcessor"/>
+	<bean id="customBeanPostProcessor" class="com.github.processor.CustomBeanPostProcessor"/>
+
+	<bean id="user1" class="com.github.entity.User"/>
+	<bean id="user2" class="com.github.entity.User"/>
+	<bean id="userFactoryBean" class="com.github.entity.UserFactoryBean"/>
+
 </beans>

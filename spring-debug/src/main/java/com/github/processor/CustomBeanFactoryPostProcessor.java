@@ -6,6 +6,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * @author hangs.zhang
@@ -15,20 +16,11 @@ import java.util.Iterator;
  */
 public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
-	/**
-	 * Modify the application context's internal bean factory after its standard
-	 * initialization. All bean definitions will have been loaded, but no beans
-	 * will have been instantiated yet. This allows for overriding or adding
-	 * properties even to eager-initializing beans.
-	 *
-	 * @param beanFactory the bean factory used by the application context
-	 * @throws BeansException in case of errors
-	 */
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		Iterator<String> beanNamesIterator = beanFactory.getBeanNamesIterator();
 		beanNamesIterator.forEachRemaining(beanName -> {
-			if (beanName.equals("loginService")) {
+			if (Objects.equals("loginService", beanName)) {
 				GenericBeanDefinition beanDefinition = (GenericBeanDefinition) beanFactory.getBeanDefinition(beanName);
 				System.out.println(beanDefinition);
 			}
