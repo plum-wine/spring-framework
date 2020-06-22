@@ -251,6 +251,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			if (!typeCheckOnly) {
+				// 标记为已创建
 				markBeanAsCreated(beanName);
 			}
 
@@ -283,10 +284,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// Create bean instance.
 				if (mbd.isSingleton()) {
 					// 开始创建单例的bean实例, 第二个参数是ObjectFactory
-					// 创建之后数据就出现在了第一级缓存中
+					// 创建之后数据就出现在了第一级缓存中(getSingleton执行完)
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
-							// 这一步中有Bean的自动装配
+							// 这一步中有Bean的自动装配, 被子类实现
 							return createBean(beanName, mbd, args);
 						} catch (BeansException ex) {
 							// Explicitly remove instance from singleton cache: It might have been put there

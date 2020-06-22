@@ -14,6 +14,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AnnotationApp {
 
     public static void main(String[] args) {
+        // AnnotationConfigApplicationContext
+        // 从注解中解析BeanDefinition并注册
+
         // AbstractApplicationContext
         // -> refresh
         // -> obtainFreshBeanFactory (生成BeanDefinition)

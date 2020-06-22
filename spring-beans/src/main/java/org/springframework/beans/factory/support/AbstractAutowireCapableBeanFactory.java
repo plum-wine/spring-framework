@@ -584,7 +584,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// 允许提前暴露的三个条件
 		// 1. 单例
-		// 2. 允许循环引用
+		// 2. 工厂允许循环引用
 		// 3. 该bean在创建中
 
 		// Eagerly cache singletons to be able to resolve circular references
@@ -606,6 +606,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			// 属性装配之前，bean的实例已经被加入到了第三级缓存中
+			// 如果后续存在循环依赖, 在getSingleton时会被创建到第二级缓存中， 然后提前暴露
 			// 属性装配
 			populateBean(beanName, mbd, instanceWrapper);
 			// 执行init方法
