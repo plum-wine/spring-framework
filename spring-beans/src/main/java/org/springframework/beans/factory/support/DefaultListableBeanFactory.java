@@ -1226,6 +1226,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				return multipleBeans;
 			}
 
+			// 生成field
 			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor);
 			if (matchingBeans.isEmpty()) {
 				if (isRequired(descriptor)) {
@@ -1262,6 +1263,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (autowiredBeanNames != null) {
 				autowiredBeanNames.add(autowiredBeanName);
 			}
+			// resolveCandidate就是getBean方法
 			if (instanceCandidate instanceof Class) {
 				instanceCandidate = descriptor.resolveCandidate(autowiredBeanName, type, this);
 			}
