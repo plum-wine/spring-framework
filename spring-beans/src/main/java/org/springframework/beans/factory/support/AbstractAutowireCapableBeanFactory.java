@@ -609,6 +609,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			// 属性装配之前，bean的实例已经被加入到了第三级缓存中
 			// 如果后续存在循环依赖, 在getSingleton时会被创建到第二级缓存中， 然后提前暴露
 			// 属性装配
+
+			// processor
+			// 1. ApplicationContextAwareProcessor InjectionMetadata AutowiredFieldElement
+
 			populateBean(beanName, mbd, instanceWrapper);
 			// 执行init方法
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
@@ -1438,6 +1442,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		boolean hasInstAwareBpps = hasInstantiationAwareBeanPostProcessors();
 		boolean needsDepCheck = (mbd.getDependencyCheck() != AbstractBeanDefinition.DEPENDENCY_CHECK_NONE);
 
+		// 发生依赖注入
 		PropertyDescriptor[] filteredPds = null;
 		if (hasInstAwareBpps) {
 			if (pvs == null) {
