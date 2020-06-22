@@ -44,7 +44,6 @@ public class AnnotationApp {
         // AutowiredAnnotationBeanPostProcessor
         // -> postProcessProperties
 
-
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
         Login login = applicationContext.getBean("login", Login.class);
         login.loginCheck("boy", "password");
