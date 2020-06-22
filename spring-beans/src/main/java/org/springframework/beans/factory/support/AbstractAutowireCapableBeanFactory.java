@@ -599,7 +599,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			// 如果当前Bean没有被创建, 则加入到第三级缓存中
 			// 且此处可能会有aop处理
 			// 这个地方并不会立即调用getEarlyBeanReference方法, 只是把ObjectFactory加入到第三级缓存中
-			// 具体的调用在getSingleton方法中
+			// 具体的调用在下一次getSingleton中
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
