@@ -2,6 +2,7 @@ package com.github.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author hangs.zhang
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * function:
  */
 @Configuration
-@ComponentScan("com.github.service")
+@EnableAspectJAutoProxy
+@ComponentScan("com.github")
 public class AppConfiguration {
 }
