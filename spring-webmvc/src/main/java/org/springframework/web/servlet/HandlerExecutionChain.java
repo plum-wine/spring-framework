@@ -41,6 +41,9 @@ public class HandlerExecutionChain {
 
 	private static final Log logger = LogFactory.getLog(HandlerExecutionChain.class);
 
+	/**
+	 * 将拦截器与handler组合起来执行
+	 */
 	private final Object handler;
 
 	@Nullable

@@ -275,11 +275,13 @@ public class ContextLoader {
 		try {
 			// Store context in local instance variable, to guarantee that
 			// it is available on ServletContext shutdown.
+			// 创建web上下文, 默认是WebXMLApplicationContext
 			if (this.context == null) {
 				this.context = createWebApplicationContext(servletContext);
 			}
 			if (this.context instanceof ConfigurableWebApplicationContext) {
 				ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) this.context;
+				// 容器并未刷新
 				if (!cwac.isActive()) {
 					// The context has not yet been refreshed -> provide services such as
 					// setting the parent context, setting the application context id, etc
@@ -289,6 +291,7 @@ public class ContextLoader {
 						ApplicationContext parent = loadParentContext(servletContext);
 						cwac.setParent(parent);
 					}
+					// 配置并且刷新容器
 					configureAndRefreshWebApplicationContext(cwac, servletContext);
 				}
 			}
@@ -384,6 +387,7 @@ public class ContextLoader {
 		}
 
 		wac.setServletContext(sc);
+		// 读取contextConfigLocation配置文件
 		String configLocationParam = sc.getInitParameter(CONFIG_LOCATION_PARAM);
 		if (configLocationParam != null) {
 			wac.setConfigLocation(configLocationParam);

@@ -212,7 +212,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 	 * @see #handlerMethodsInitialized
 	 */
 	protected void initHandlerMethods() {
+		// 遍历所有的Bean
 		for (String beanName : getCandidateBeanNames()) {
+			// 忽略掉以scopedTarget.开头的类(request session application之类的作用域代理类)
 			if (!beanName.startsWith(SCOPED_TARGET_NAME_PREFIX)) {
 				processCandidateBean(beanName);
 			}
@@ -227,6 +229,8 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 	 * @see BeanFactoryUtils#beanNamesForTypeIncludingAncestors
 	 */
 	protected String[] getCandidateBeanNames() {
+		// true 从父容器和当前容器去获取所有Bean
+		// false 从当前容器查找
 		return (this.detectHandlerMethodsInAncestorContexts ?
 				BeanFactoryUtils.beanNamesForTypeIncludingAncestors(obtainApplicationContext(), Object.class) :
 				obtainApplicationContext().getBeanNamesForType(Object.class));
@@ -254,7 +258,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 				logger.trace("Could not resolve type for bean '" + beanName + "'", ex);
 			}
 		}
+		// 判断类是否有Controller注解或者RequestMapping注解
 		if (beanType != null && isHandler(beanType)) {
+			// 提取url与controller之间的映射关系
 			detectHandlerMethods(beanName);
 		}
 	}
@@ -269,7 +275,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 				obtainApplicationContext().getType((String) handler) : handler.getClass());
 
 		if (handlerType != null) {
+			// 获取到被代理类本身, 即用户定义的类
 			Class<?> userType = ClassUtils.getUserClass(handlerType);
+			// 寻找方法上有RequestMapping注解标记的Method实例
 			Map<Method, T> methods = MethodIntrospector.selectMethods(userType,
 					(MethodIntrospector.MetadataLookup<T>) method -> {
 						try {
@@ -283,7 +291,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 			if (logger.isTraceEnabled()) {
 				logger.trace(formatMappings(userType, methods));
 			}
+			// 将Method对象注册到HandlerMapping
 			methods.forEach((method, mapping) -> {
+				// 获取被AOP包装的方法实例
 				Method invocableMethod = AopUtils.selectInvocableMethod(method, userType);
 				registerHandlerMethod(handler, invocableMethod, mapping);
 			});
@@ -364,7 +374,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 		request.setAttribute(LOOKUP_PATH, lookupPath);
 		this.mappingRegistry.acquireReadLock();
 		try {
+			// 根据路径寻找Handler, 封装成HandlerMethod
 			HandlerMethod handlerMethod = lookupHandlerMethod(lookupPath, request);
+			// 根据HandlerMethod中的bean来实例化Handler,并添加进HandlerMethod
 			return (handlerMethod != null ? handlerMethod.createWithResolvedBean() : null);
 		}
 		finally {

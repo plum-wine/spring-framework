@@ -392,8 +392,12 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 	@Override
 	@Nullable
 	public final HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+		// 获取handler具体逻辑, 由子类实现
+		// RequestHandlerMapping.getHandlerInternal
+		// AbstractHandlerMethodMapping.getHandlerInternal
 		Object handler = getHandlerInternal(request);
 		if (handler == null) {
+			// 如果获取的handler为null, 则视同默认handler
 			handler = getDefaultHandler();
 		}
 		if (handler == null) {
@@ -405,6 +409,7 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 			handler = obtainApplicationContext().getBean(handlerName);
 		}
 
+		// 根据handler和request获取处理器链
 		HandlerExecutionChain executionChain = getHandlerExecutionChain(handler, request);
 
 		if (logger.isTraceEnabled()) {
@@ -468,6 +473,8 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 				(HandlerExecutionChain) handler : new HandlerExecutionChain(handler));
 
 		String lookupPath = this.urlPathHelper.getLookupPathForRequest(request, LOOKUP_PATH);
+
+		// 包装拦截器
 		for (HandlerInterceptor interceptor : this.adaptedInterceptors) {
 			if (interceptor instanceof MappedInterceptor) {
 				MappedInterceptor mappedInterceptor = (MappedInterceptor) interceptor;

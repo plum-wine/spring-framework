@@ -789,6 +789,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			}
 		}
 		else {
+			// 真正处理请求的地方
 			// No synchronization on session demanded at all...
 			mav = invokeHandlerMethod(request, response, handlerMethod);
 		}
@@ -843,12 +844,14 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 			ServletInvocableHandlerMethod invocableMethod = createInvocableHandlerMethod(handlerMethod);
 			if (this.argumentResolvers != null) {
+				// 设置参数解析器
 				invocableMethod.setHandlerMethodArgumentResolvers(this.argumentResolvers);
 			}
 			if (this.returnValueHandlers != null) {
 				invocableMethod.setHandlerMethodReturnValueHandlers(this.returnValueHandlers);
 			}
 			invocableMethod.setDataBinderFactory(binderFactory);
+			// 参数名称发现器
 			invocableMethod.setParameterNameDiscoverer(this.parameterNameDiscoverer);
 
 			ModelAndViewContainer mavContainer = new ModelAndViewContainer();
@@ -876,6 +879,7 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 				invocableMethod = invocableMethod.wrapConcurrentResult(result);
 			}
 
+			// 核心逻辑, 最终执行Handler方法处理请求
 			invocableMethod.invokeAndHandle(webRequest, mavContainer);
 			if (asyncManager.isConcurrentHandlingStarted()) {
 				return null;

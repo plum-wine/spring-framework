@@ -52,6 +52,8 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.web.servlet.handler.AbstractHandlerMapping
  * @see org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping
  * @see org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+ *
+ * AbstractHandlerMapping是主要的实现类
  */
 public interface HandlerMapping {
 

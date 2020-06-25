@@ -251,12 +251,16 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	@Override
 	@Nullable
 	protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
+		// 创建方法的RequestMapping信息
 		RequestMappingInfo info = createRequestMappingInfo(method);
 		if (info != null) {
+			// 创建类的RequestMapping信息
 			RequestMappingInfo typeInfo = createRequestMappingInfo(handlerType);
 			if (typeInfo != null) {
+				// 合并
 				info = typeInfo.combine(info);
 			}
+			// 获取请求前缀, 默认是没有的
 			String prefix = getPathPrefix(handlerType);
 			if (prefix != null) {
 				info = RequestMappingInfo.paths(prefix).options(this.config).build().combine(info);

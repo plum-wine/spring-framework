@@ -16,30 +16,8 @@
 
 package org.springframework.web.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -64,6 +42,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.util.NestedServletException;
 import org.springframework.web.util.WebUtils;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Central dispatcher for HTTP request handlers/controllers, e.g. for web UI controllers
@@ -488,6 +475,7 @@ public class DispatcherServlet extends FrameworkServlet {
 
 
 	/**
+	 * 被父类回调
 	 * This implementation calls {@link #initStrategies}.
 	 */
 	@Override
@@ -503,10 +491,17 @@ public class DispatcherServlet extends FrameworkServlet {
 		initMultipartResolver(context);
 		initLocaleResolver(context);
 		initThemeResolver(context);
+		// 初始化HandlerMapping
+		// 建立Controller->Method->Params与Url->HttpMethod->HttpParam之间的映射关系
 		initHandlerMappings(context);
+		// 初始化HandlerAdapter
+		// HandlerAdapter是用来调用具体方法来对用户发起的请求进行处理的
 		initHandlerAdapters(context);
+		// 异常处理器
 		initHandlerExceptionResolvers(context);
+		// 获取viewName
 		initRequestToViewNameTranslator(context);
+		// 初始化视图护理期
 		initViewResolvers(context);
 		initFlashMapManager(context);
 	}
@@ -591,15 +586,18 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * we default to BeanNameUrlHandlerMapping.
 	 */
 	private void initHandlerMappings(ApplicationContext context) {
+		// List对象
 		this.handlerMappings = null;
 
 		if (this.detectAllHandlerMappings) {
+			// 寻找容器中HandlerMapping类型的Bean
 			// Find all HandlerMappings in the ApplicationContext, including ancestor contexts.
 			Map<String, HandlerMapping> matchingBeans =
 					BeanFactoryUtils.beansOfTypeIncludingAncestors(context, HandlerMapping.class, true, false);
 			if (!matchingBeans.isEmpty()) {
 				this.handlerMappings = new ArrayList<>(matchingBeans.values());
 				// We keep HandlerMappings in sorted order.
+				// 排序
 				AnnotationAwareOrderComparator.sort(this.handlerMappings);
 			}
 		}
@@ -1012,6 +1010,8 @@ public class DispatcherServlet extends FrameworkServlet {
 				processedRequest = checkMultipart(request);
 				multipartRequestParsed = (processedRequest != request);
 
+				// 根据当前请求获取handler
+				// handler中包含了url,controller已经对应的controller中的方法
 				// Determine handler for the current request.
 				mappedHandler = getHandler(processedRequest);
 				if (mappedHandler == null) {
@@ -1019,6 +1019,7 @@ public class DispatcherServlet extends FrameworkServlet {
 					return;
 				}
 
+				// 通过Handler获取到对应的适配器,adapter负责完成参数解析
 				// Determine handler adapter for the current request.
 				HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 
@@ -1032,10 +1033,12 @@ public class DispatcherServlet extends FrameworkServlet {
 					}
 				}
 
+				// 遍历执行拦截链的pre方法
 				if (!mappedHandler.applyPreHandle(processedRequest, response)) {
 					return;
 				}
 
+				// 调用目标Controller的方法
 				// Actually invoke the handler.
 				mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
 
@@ -1044,6 +1047,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				}
 
 				applyDefaultViewName(processedRequest, mv);
+				// 遍历执行拦截器post方法
 				mappedHandler.applyPostHandle(processedRequest, response, mv);
 			}
 			catch (Exception ex) {
@@ -1054,6 +1058,7 @@ public class DispatcherServlet extends FrameworkServlet {
 				// making them available for @ExceptionHandler methods and other scenarios.
 				dispatchException = new NestedServletException("Handler dispatch failed", err);
 			}
+			// 处理最后的结果,渲染之类
 			processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
 		}
 		catch (Exception ex) {
@@ -1267,6 +1272,9 @@ public class DispatcherServlet extends FrameworkServlet {
 	protected HandlerAdapter getHandlerAdapter(Object handler) throws ServletException {
 		if (this.handlerAdapters != null) {
 			for (HandlerAdapter adapter : this.handlerAdapters) {
+				// 遍历所有HandlerAdapter, 找到当前Handler匹配的HandlerAdapter实例
+				// RequestMappingHandlerAdapter
+				// AbstractHandlerMethodAdapter
 				if (adapter.supports(handler)) {
 					return adapter;
 				}
