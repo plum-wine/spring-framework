@@ -8,7 +8,7 @@ Login login = applicationContext.getBean("login", Login.class);
 ```
 public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
     this();
-    // 这里不关心是如何通过注解来注册, 重点放在
+    // 这里不关心是如何通过注解来注册, 重点放在ioc如何加载Bean
     register(componentClasses);
     // refresh就是ioc初始化的地方
     refresh();
