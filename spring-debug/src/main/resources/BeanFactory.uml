@@ -73,17 +73,17 @@
       <point x="695.125" y="535.0" />
       <point x="0.0" y="31.0" />
     </edge>
-    <edge source="org.springframework.beans.factory.support.DefaultListableBeanFactory" target="org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory">
-      <point x="-80.24999999999994" y="-31.0" />
-      <point x="460.6011904761904" y="535.0" />
-      <point x="238.3749999999999" y="535.0" />
-      <point x="0.0" y="31.0" />
-    </edge>
     <edge source="org.springframework.beans.factory.support.AbstractBeanFactory" target="org.springframework.beans.factory.config.ConfigurableBeanFactory">
       <point x="0.0" y="-31.0" />
       <point x="125.5" y="316.0" />
       <point x="494.8184523809523" y="316.0" />
       <point x="-72.75" y="31.0" />
+    </edge>
+    <edge source="org.springframework.beans.factory.support.DefaultListableBeanFactory" target="org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory">
+      <point x="-80.24999999999994" y="-31.0" />
+      <point x="460.6011904761904" y="535.0" />
+      <point x="238.3749999999999" y="535.0" />
+      <point x="0.0" y="31.0" />
     </edge>
     <edge source="org.springframework.beans.factory.config.ConfigurableBeanFactory" target="org.springframework.beans.factory.HierarchicalBeanFactory">
       <point x="5.6843418860808015E-14" y="-31.0" />

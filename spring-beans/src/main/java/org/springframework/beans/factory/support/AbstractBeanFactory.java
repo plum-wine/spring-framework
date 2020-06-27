@@ -287,7 +287,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					// 创建之后数据就出现在了第一级缓存中(getSingleton执行完)
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
-							// 这一步中有Bean的自动装配, 被子类实现
+							// 这一步中有Bean的自动装配, 被子类也就是AbstractAutowireCapableBeanFactory实现
 							return createBean(beanName, mbd, args);
 						} catch (BeansException ex) {
 							// Explicitly remove instance from singleton cache: It might have been put there
@@ -346,6 +346,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 		}
 
+		// 根据传入requiredType进行类型检查
 		// Check if required type matches the type of the actual bean instance.
 		if (requiredType != null && !requiredType.isInstance(bean)) {
 			try {

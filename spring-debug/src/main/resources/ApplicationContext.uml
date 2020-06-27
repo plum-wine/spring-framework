@@ -11,8 +11,8 @@
     <node x="609.0" y="560.0">org.springframework.context.annotation.AnnotationConfigApplicationContext</node>
     <node x="128.0" y="672.0">org.springframework.context.support.AbstractRefreshableConfigApplicationContext</node>
     <node x="431.0" y="448.0">org.springframework.context.support.AbstractApplicationContext</node>
-    <node x="411.0" y="336.0">org.springframework.context.ConfigurableApplicationContext</node>
     <node x="674.0" y="0.0">org.springframework.beans.factory.BeanFactory</node>
+    <node x="411.0" y="336.0">org.springframework.context.ConfigurableApplicationContext</node>
     <node x="0.0" y="896.0">org.springframework.context.support.ClassPathXmlApplicationContext</node>
     <node x="158.0" y="560.0">org.springframework.context.support.AbstractRefreshableApplicationContext</node>
     <node x="779.5" y="112.0">org.springframework.beans.factory.ListableBeanFactory</node>
@@ -92,7 +92,7 @@
       <point x="0.0" y="31.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="534.0" y="479.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="531.5" y="479.0" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>

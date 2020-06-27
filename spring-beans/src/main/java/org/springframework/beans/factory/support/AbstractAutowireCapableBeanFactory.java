@@ -598,7 +598,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
-			// 如果当前Bean没有被创建, 则加入到第三级缓存中
+			// 如果当前Bean没有被创建, 则加入到第三级缓存中, 且删除掉二级缓存中的实例
 			// 且此处可能会有aop处理
 			// 这个地方并不会立即调用getEarlyBeanReference方法, 只是把ObjectFactory加入到第三级缓存中
 			// 具体的调用在下一次getSingleton中
