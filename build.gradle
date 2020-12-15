@@ -24,6 +24,10 @@ plugins {
 	id "com.github.ben-manes.versions" version '0.24.0'
 }
 
+tasks.withType(Wrapper) {
+	enabled = false
+}
+
 allprojects {
 	repositories {
 		maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
@@ -63,6 +67,8 @@ configure(allprojects) { project ->
 				entry 'log4j-slf4j-impl'
 				entry 'log4j-jul'
 			}
+
+			dependency "org.slf4j:slf4j-api:1.7.30"
 			dependency "org.slf4j:slf4j-api:1.7.30"
 			dependency "com.google.code.findbugs:jsr305:3.0.2"
 

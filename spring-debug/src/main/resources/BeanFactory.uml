@@ -10,8 +10,8 @@
     <node x="380.35119047619037" y="560.0">org.springframework.beans.factory.support.DefaultListableBeanFactory</node>
     <node x="422.0684523809523" y="224.0">org.springframework.beans.factory.config.ConfigurableBeanFactory</node>
     <node x="509.625" y="448.0">org.springframework.beans.factory.config.ConfigurableListableBeanFactory</node>
-    <node x="734.577380952381" y="112.0">org.springframework.beans.factory.ListableBeanFactory</node>
     <node x="37.874999999999886" y="448.0">org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory</node>
+    <node x="734.577380952381" y="112.0">org.springframework.beans.factory.ListableBeanFactory</node>
   </nodes>
   <notes />
   <edges>
@@ -90,7 +90,7 @@
       <point x="0.0" y="31.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="493.0" y="311.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="486.5" y="297.0" />
   <SelectedNodes>
     <node>org.springframework.beans.factory.BeanFactory</node>
   </SelectedNodes>

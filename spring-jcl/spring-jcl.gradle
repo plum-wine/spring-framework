@@ -1,6 +1,7 @@
 description = "Spring Commons Logging Bridge"
 
 dependencies {
+	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
 	optional("org.apache.logging.log4j:log4j-api")
 	optional("org.slf4j:slf4j-api")
 }
